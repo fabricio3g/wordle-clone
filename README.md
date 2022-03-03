@@ -1,10 +1,1 @@
 
-* the WORD should contain 5 letter
-* It have 5 try
-
-## TODO 
-
-- [ ] THE WORD HAS TO EXIST INTO THE DICTIONARY
-- [ ] CHEKC IF THE WORD EXIST AND HIS POSITION
-- [ ] IF THE POSITION IS RIGHT THEN HIGHLIGHT THE WORD
-- [ ] 
