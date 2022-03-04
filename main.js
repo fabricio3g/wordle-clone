@@ -1,7 +1,7 @@
 
 // GLOBAL CONSTANTS
 const NUMBER_GUESS = 6
-const NUMBER_WORDS = 5
+const NUMBER_WORDS = 4 // BASE ON INDEX 0 
 const DICTIONARY_WORD = ["casas","autos", "arbol"]
 const WORD_GUESS = "casas"
 //----------
@@ -59,6 +59,48 @@ function game(word, dictionary_word, word_guess){
 }
 
 
+let map = [
+    ["*","*","*","*",]
+]
 
-// EVENT AND HTML ELEMENTS
 
+// HTML ELEMENTS
+
+const collection = document.querySelectorAll('#collection-row')
+
+
+// Global variable
+
+let arrayChar = ["", "", "", "",""]
+let count = 0
+let wordCol = 0
+
+// EVENT
+
+
+window.addEventListener('keydown', e =>{
+    
+    if((count >= 0 && count <= 4) && (e.keyCode >= 65 && e.keyCode <= 90)){
+        arrayChar[count] = e.key
+        collection[0].children[wordCol].children[count].innerText = arrayChar[count].toLocaleUpperCase()
+        collection[0].children[wordCol].children[count].classList.add('new-border')
+        count !== 4? count++ : null
+    }
+   
+    if((count != -1) && e.keyCode === 08){
+        
+        arrayChar[count] = ''
+        console.log(arrayChar, count)
+        collection[0].children[wordCol].children[count].innerText = arrayChar[count].toLocaleUpperCase()
+        collection[0].children[wordCol].children[count].classList.remove('new-border')
+        count != 0 ? count-- : count = 0
+       
+    }
+
+    if(e.keyCode == 13 && NUMBER_WORDS === count ){ 
+        wordCol != 7 ? wordCol++ : null
+        count = 0
+    }
+    
+    
+})
