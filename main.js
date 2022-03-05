@@ -2,8 +2,8 @@
 // GLOBAL CONSTANTS
 const NUMBER_GUESS = 6
 const NUMBER_WORDS = 4 // BASE ON INDEX 0 
-const DICTIONARY_WORD = ["casas","autos", "arbol"]
-const WORD_GUESS = "casas"
+const DICTIONARY_WORD = ["casas","autos", "arbol", 'casos', 'lazer', 'mirar']
+const WORD_GUESS = "mirar"
 //----------
 
 const MatchResult = {
@@ -15,7 +15,7 @@ const MatchResult = {
 const WordEnum = {
     CORRECT: 1,
     ALMOST: 2,
-    CORRECT: 3
+    INCORRECT: 3
 }
 
 // USER WORD
@@ -28,7 +28,8 @@ function isWord(word, dictionaryWord){
     // Simple Search
    let value = null
    for(let i = 0; i < dictionaryWord.length; i++){
-        if(dictionaryWord[i].toLocaleLowerCase() == word.join('')){
+       console.log(word, dictionaryWord)
+        if(dictionaryWord[i] == word.join('')){
             value = dictionaryWord[i].toLocaleLowerCase()
             break
         }
@@ -37,9 +38,32 @@ function isWord(word, dictionaryWord){
 }
 
 
-function checkingWords(array, word_guess){
+function checkLetter(array, word_guess){
+    let {CORRECT, ALMOST, INCORRECT} = WordEnum
+    let guess = word_guess
+    let arrIndex = 0
+    let arr = [...array]
+    let map = [INCORRECT, INCORRECT, INCORRECT, INCORRECT, INCORRECT];
+    do{
+        for(let i = 0; i <= 5; i++){
+            if(guess[arrIndex] === arr[i]){
+                if(arrIndex === i){
+                    console.log(guess[arrIndex])
+                    arr[i] = ''
+                    map[i] = CORRECT
+                    continue
+                }
+                else{
+                    map[i] = ALMOST
+                    continue
+                }
+            }
+        }
+        arrIndex++
+    }while(arrIndex <= 4)
+    
 
-
+    return map
 
 }
 
@@ -60,15 +84,13 @@ function matchWord(word, dictionary_word, word_guess){
     }
 }
 
-let maps = [
-    ["*","*","*","*",]
-]
+let maps = []
 
 
 // HTML ELEMENTS
 
 const collection = document.querySelectorAll('#collection-row')
-
+const messege = document.querySelector('.messege')
 
 // Global variable
 
@@ -113,20 +135,48 @@ window.addEventListener('keydown', e =>{
                 collection[0].children[wordCol].children[i].classList.remove('new-border')
                 collection[0].children[wordCol].children[i].classList.add('correct')
             }
+            messege.innerHTML = `<p class=" text-xs text-green-600 text-center messeges p-0.5 border w-28 mx-auto rounded shadow m-5">Ganaste!</p>`
             
+            wordCol = 7
+            count = 0
         }
 
         // check if is in the dictionary and check every word
         if(matchWord(WORD, DICTIONARY_WORD, WORD_GUESS) === MatchResult.IS_IN_DICTIONARY){
-            console.log('Proced to do all the checking stuff')
+            console.log('MATCH')
+            let {CORRECT, ALMOST, INCORRECT} = WordEnum
+            let result = checkLetter(WORD, WORD_GUESS)
+            console.log(result)
+            result.forEach((value,index)=>{
+                if(value === CORRECT){
+                    collection[0].children[wordCol].children[index].classList.remove('new-border')
+                    collection[0].children[wordCol].children[index].classList.add('correct')
+                }
+                if(value === ALMOST){
+                    collection[0].children[wordCol].children[index].classList.remove('new-border')
+                    collection[0].children[wordCol].children[index].classList.add('almostCorrect')
+                }
+                if(value === INCORRECT){
+                    collection[0].children[wordCol].children[index].classList.remove('new-border')
+                    collection[0].children[wordCol].children[index].classList.add('incorrect')
+                }
+                
+            })
+            wordCol != 7 ? wordCol++ : null
+            count = 0
         }
+        console.log(arrayChar)
         // is not in the dictionary and show some messege
         if(matchWord(WORD, DICTIONARY_WORD, WORD_GUESS) === MatchResult.IS_NOT_IN_DICTIONARY){
+            messege.innerHTML = `<p class=" text-xs text-red-600 text-center messeges p-0.5 border w-28 mx-auto rounded shadow m-5">Palabra no encontrada</p>`
+            setTimeout(()=>{
+                messege.innerHTML = ``
+
+            }, 3000)
             console.log('show messege')
         }
 
-        wordCol != 7 ? wordCol++ : null
-        count = 0
+        
     }
     
     
