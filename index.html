@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script src="https://cdn.tailwindcss.com/3.0.23"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Wordle</title>
 </head>
 <body>
@@ -17,9 +20,11 @@
             <i class="fa-solid fa-gear cursor-pointer hover:text-gray-600  text-gray-400"></i>
         </nav>
         <div class="flex flex-col pt-2 mx-auto">
-            
+            <div class="mx-auto mt-1">
+                <a  class="fa-brands  fa-github cursor-pointer" href="https://github.com/fabricio3g/wordle" target="_blank" rel="noopener noreferrer"></a></a>
+            </div>
             <div class="messege container w-50">
-                
+
             </div>
 
             <div id='collection-row' class="container flex flex-col mx-auto font-bold text-lg columns ">
@@ -36,35 +41,35 @@
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1  p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1 p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9  w-10 m-1 p-1  text-center"></li>
-                </ul> 
+                </ul>
                 <ul class="flex flex-row justify-center font-bold text-lg">
                     <li class="border-2 border border-gray-600 h-9 w-10  m-1 p-1  text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1  p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1  p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1 p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9  w-10 m-1 p-1  text-center"></li>
-                </ul> 
+                </ul>
                 <ul class="flex flex-row justify-center font-bold text-lg">
                     <li class="border-2 border border-gray-600 h-9  w-10  m-1 p-1  text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1  p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1  p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1 p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9  w-10 m-1 p-1  text-center"></li>
-                </ul> 
+                </ul>
                 <ul class="flex flex-row justify-center font-bold text-lg">
                     <li class="border-2 border border-gray-600 h-9 w-10  m-1 p-1  text-center"> </li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1  p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1  p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1 p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1 p-1  text-center"></li>
-                </ul> 
+                </ul>
                 <ul class="flex flex-row justify-center font-bold text-lg">
                     <li class="border-2 border border-gray-600 h-9  w-10 m-1 p-1  text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1  p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1  p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1 p-1 text-center"></li>
                     <li class="border-2 border border-gray-600 h-9  w-10 m-1 p-1  text-center"></li>
-                </ul> 
+                </ul>
             </div>
             <div class="pt-1 virtual-keyboard">
                 <ul class="flex flex-row font-bold text-xs text-center justify-center">
@@ -101,32 +106,35 @@
                     <li class="bg-gray-300 py-2 px-2 m-0.5 rounded w-7 cursor-pointer">N</li>
                     <li class="bg-gray-300 py-2 px-2 m-0.5 rounded w-7 cursor-pointer">M</li>
                     <li class="bg-gray-300 py-2 px-2 m-0.5 rounded w-10 cursor-pointer">&#9003;</li>
-                    
+
                 </ul>
             </div>
-    </div>
-<script src="main.js"></script>
-<style>
-    .correct{
-        background: #6dad61;
-        color:white;
-        border:none;
-    }
-    .almostCorrect{
-        background: #c8b754;
-        color:white;
-        border:none;
-    }
-    .incorrect{
-        background: #7b7f81;
-        color:white;
-        border: none;
-    }
-    .new-border{
-        border: 2px #7b7f81 dotted;
-    }
+            
+        </div>
+        <script src="main.js"></script>
+        <style>
+            .correct {
+                background: #6dad61;
+                color: white;
+                border: none;
+            }
 
+            .almostCorrect {
+                background: #c8b754;
+                color: white;
+                border: none;
+            }
 
-</style>
+            .incorrect {
+                background: #7b7f81;
+                color: white;
+                border: none;
+            }
+
+            .new-border {
+                border: 2px #7b7f81 dotted;
+            }
+        </style>
 </body>
+
 </html>
