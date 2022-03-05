@@ -28,9 +28,8 @@ function isWord(word, dictionaryWord){
     // Simple Search
    let value = null
    for(let i = 0; i < dictionaryWord.length; i++){
-       console.log(word, dictionaryWord)
         if(dictionaryWord[i] == word.join('')){
-            value = dictionaryWord[i].toLocaleLowerCase()
+            value = dictionaryWord[i].toLowerCase()
             break
         }
    }
@@ -48,7 +47,6 @@ function checkLetter(array, word_guess){
         for(let i = 0; i <= 5; i++){
             if(guess[arrIndex] === arr[i]){
                 if(arrIndex === i){
-                    console.log(guess[arrIndex])
                     arr[i] = ''
                     map[i] = CORRECT
                     continue
@@ -84,6 +82,86 @@ function matchWord(word, dictionary_word, word_guess){
     }
 }
 
+
+//
+
+function render(e){
+        // ADD NEW LETTER
+        if((count >= 0 && count <= 4) && (e.keyCode >= 65 && e.keyCode <= 90)){
+            console.log(e.key)
+            arrayChar[count] = e.key
+            collection[0].children[wordCol].children[count].innerText = String(arrayChar[count]).toUpperCase()
+            collection[0].children[wordCol].children[count].classList.add('new-border')
+            count !== 4? count++ : null
+        }
+       
+        // REMOVE LETTER
+        if((count != -1) && e.keyCode === 08){
+            
+            collection[0].children[wordCol].children[count].classList.remove('new-border')
+            collection[0].children[wordCol].children[count].innerText = arrayChar[count]
+            count != 0 ? count-- : count = 0
+           
+        }
+        
+        // SEND LETTER AND DO ALL CHECKS
+        if(e.keyCode == 13 && NUMBER_WORDS === count ){
+            WORD = arrayChar
+    
+            // check if is the correct word
+            if(matchWord(WORD, DICTIONARY_WORD, WORD_GUESS) === MatchResult.GUESSED_WORD){
+                const { CORRECT } = WordEnum
+                
+                maps.push = [CORRECT ,CORRECT,CORRECT,CORRECT, CORRECT]
+                for(let i = 0; i < 5; i++){
+                    collection[0].children[wordCol].children[i].classList.remove('new-border')
+                    collection[0].children[wordCol].children[i].classList.add('correct')
+                }
+                messege.innerHTML = `<p class=" text-xs text-green-600 text-center messeges p-0.5 border w-28 mx-auto rounded shadow m-5">Ganaste!</p>`
+                
+                wordCol = 7
+                count = 0
+            }
+    
+            // check if is in the dictionary and check every word
+            if(matchWord(WORD, DICTIONARY_WORD, WORD_GUESS) === MatchResult.IS_IN_DICTIONARY){
+                console.log('MATCH')
+                let {CORRECT, ALMOST, INCORRECT} = WordEnum
+                let result = checkLetter(WORD, WORD_GUESS)
+                result.forEach((value,index)=>{
+                    if(value === CORRECT){
+                        collection[0].children[wordCol].children[index].classList.remove('new-border')
+                        collection[0].children[wordCol].children[index].classList.add('correct')
+                    }
+                    if(value === ALMOST){
+                        collection[0].children[wordCol].children[index].classList.remove('new-border')
+                        collection[0].children[wordCol].children[index].classList.add('almostCorrect')
+                    }
+                    if(value === INCORRECT){
+                        collection[0].children[wordCol].children[index].classList.remove('new-border')
+                        collection[0].children[wordCol].children[index].classList.add('incorrect')
+                    }
+                    
+                })
+                wordCol != 7 ? wordCol++ : null
+                count = 0
+            }
+            console.log(maps)
+            // is not in the dictionary and show some messege
+            if(matchWord(WORD, DICTIONARY_WORD, WORD_GUESS) === MatchResult.IS_NOT_IN_DICTIONARY){
+                messege.innerHTML = `<p class=" text-xs text-red-600 text-center messeges p-0.5 border w-28 mx-auto rounded shadow m-5">Palabra no encontrada</p>`
+                setTimeout(()=>{
+                    messege.innerHTML = ``
+    
+                }, 3000)
+                console.log('show messege')
+            }
+    
+            
+        }
+}
+
+//----------
 let maps = []
 
 
@@ -91,7 +169,7 @@ let maps = []
 
 const collection = document.querySelectorAll('#collection-row')
 const messege = document.querySelector('.messege')
-
+const virtual_keyboard = document.querySelector('.virtual-keyboard')
 // Global variable
 
 let arrayChar = ["", "", "", "",""]
@@ -104,80 +182,56 @@ let wordCol = 0
 window.addEventListener('keydown', e =>{
     
 
-    // ADD NEW LETTER
-    if((count >= 0 && count <= 4) && (e.keyCode >= 65 && e.keyCode <= 90)){
-        arrayChar[count] = e.key
-        collection[0].children[wordCol].children[count].innerText = arrayChar[count].toLocaleUpperCase()
-        collection[0].children[wordCol].children[count].classList.add('new-border')
-        count !== 4? count++ : null
-    }
-   
-    // REMOVE LETTER
-    if((count != -1) && e.keyCode === 08){
-        arrayChar[count] = ''
-        collection[0].children[wordCol].children[count].classList.remove('new-border')
-        collection[0].children[wordCol].children[count].innerText = arrayChar[count].toLocaleUpperCase()
-        count != 0 ? count-- : count = 0
-       
-    }
-    console.log(maps)
+
+    render(e)
     
-    // SEND LETTER AND DO ALL CHECKS
-    if(e.keyCode == 13 && NUMBER_WORDS === count ){
-        WORD = arrayChar
+})
 
-        // check if is the correct word
-        if(matchWord(WORD, DICTIONARY_WORD, WORD_GUESS) === MatchResult.GUESSED_WORD){
-            const { CORRECT } = WordEnum
-            
-            maps.push = [CORRECT ,CORRECT,CORRECT,CORRECT, CORRECT]
-            for(let i = 0; i < 5; i++){
-                collection[0].children[wordCol].children[i].classList.remove('new-border')
-                collection[0].children[wordCol].children[i].classList.add('correct')
-            }
-            messege.innerHTML = `<p class=" text-xs text-green-600 text-center messeges p-0.5 border w-28 mx-auto rounded shadow m-5">Ganaste!</p>`
-            
-            wordCol = 7
-            count = 0
-        }
 
-        // check if is in the dictionary and check every word
-        if(matchWord(WORD, DICTIONARY_WORD, WORD_GUESS) === MatchResult.IS_IN_DICTIONARY){
-            console.log('MATCH')
-            let {CORRECT, ALMOST, INCORRECT} = WordEnum
-            let result = checkLetter(WORD, WORD_GUESS)
-            console.log(result)
-            result.forEach((value,index)=>{
-                if(value === CORRECT){
-                    collection[0].children[wordCol].children[index].classList.remove('new-border')
-                    collection[0].children[wordCol].children[index].classList.add('correct')
-                }
-                if(value === ALMOST){
-                    collection[0].children[wordCol].children[index].classList.remove('new-border')
-                    collection[0].children[wordCol].children[index].classList.add('almostCorrect')
-                }
-                if(value === INCORRECT){
-                    collection[0].children[wordCol].children[index].classList.remove('new-border')
-                    collection[0].children[wordCol].children[index].classList.add('incorrect')
-                }
-                
-            })
-            wordCol != 7 ? wordCol++ : null
-            count = 0
-        }
-        console.log(arrayChar)
-        // is not in the dictionary and show some messege
-        if(matchWord(WORD, DICTIONARY_WORD, WORD_GUESS) === MatchResult.IS_NOT_IN_DICTIONARY){
-            messege.innerHTML = `<p class=" text-xs text-red-600 text-center messeges p-0.5 border w-28 mx-auto rounded shadow m-5">Palabra no encontrada</p>`
-            setTimeout(()=>{
-                messege.innerHTML = ``
 
-            }, 3000)
-            console.log('show messege')
-        }
 
-        
+
+// virtual keyabord
+
+
+// Top Part
+virtual_keyboard.children[0].addEventListener('click', e =>{
+    let data = {
+        keyCode: '',
+        key: ''
     }
-    
-    
+
+    data.keyCode = e.target.innerHTML.charCodeAt()
+    data.key = String.fromCharCode(e.target.innerHTML.charCodeAt())
+    render(data)
+})
+// Middle Part
+virtual_keyboard.children[1].addEventListener('click', e =>{
+    let data = {
+        keyCode: '',
+        key: ''
+    }
+
+    data.keyCode = e.target.innerHTML.charCodeAt()
+    data.key = String.fromCharCode(e.target.innerHTML.charCodeAt())
+    render(data)
+})
+// Bottom part
+virtual_keyboard.children[2].addEventListener('click', e =>{
+    let data = {
+        keyCode: '',
+        key: ''
+    }
+    console.log(e.target.innerHTML)
+    if(e.target.innerHTML=== 'ENVIAR'){
+        data.keyCode = 13
+        render(data)
+    }
+    if(e.target.innerHTML === '⌫'){
+        data.keyCode = 08
+        render(data)
+    }
+    data.keyCode = e.target.innerHTML.charCodeAt()
+    data.key = String.fromCharCode(e.target.innerHTML.charCodeAt())
+    render(data)
 })
