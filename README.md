@@ -1,4 +1,4 @@
 ## Wordle clone made with Vanilla Javascript
 
-- [ ] Fix delete word problem
-- [ ] Add Virtual Keyboard functionality
+- [ ] Fix delete and add word problem
+- [x] Add Virtual Keyboard functionality
