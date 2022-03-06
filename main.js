@@ -82,13 +82,24 @@ function matchWord(word, dictionary_word, word_guess){
     }
 }
 
+//
+
+function virtual_keyboard_press(e){
+    let data = {
+        keyCode: '',
+        key: ''
+    }
+
+    data.keyCode = e.target.innerHTML.charCodeAt()
+    data.key = (String.fromCharCode(e.target.innerHTML.charCodeAt())).toLowerCase()
+    render(data)    
+}
 
 //
 
 function render(e){
         // ADD NEW LETTER
-        if((count >= 0 && count <= 4) && (e.keyCode >= 65 && e.keyCode <= 90)){
-            console.log(e.key)
+        if((e.key === null ? false : true ) && (count >= 0 && count <= 4) && (e.keyCode >= 65 && e.keyCode <= 90)){
             arrayChar[count] = e.key
             collection[0].children[wordCol].children[count].innerText = String(arrayChar[count]).toUpperCase()
             collection[0].children[wordCol].children[count].classList.add('new-border')
@@ -99,7 +110,7 @@ function render(e){
         if((count != -1) && e.keyCode === 08){
             
             collection[0].children[wordCol].children[count].classList.remove('new-border')
-            collection[0].children[wordCol].children[count].innerText = arrayChar[count]
+            collection[0].children[wordCol].children[count].textContent = arrayChar[count]          
             count != 0 ? count-- : count = 0
            
         }
@@ -107,7 +118,7 @@ function render(e){
         // SEND LETTER AND DO ALL CHECKS
         if(e.keyCode == 13 && NUMBER_WORDS === count ){
             WORD = arrayChar
-    
+            console.log(WORD)
             // check if is the correct word
             if(matchWord(WORD, DICTIONARY_WORD, WORD_GUESS) === MatchResult.GUESSED_WORD){
                 const { CORRECT } = WordEnum
@@ -146,7 +157,7 @@ function render(e){
                 wordCol != 7 ? wordCol++ : null
                 count = 0
             }
-            console.log(maps)
+            
             // is not in the dictionary and show some messege
             if(matchWord(WORD, DICTIONARY_WORD, WORD_GUESS) === MatchResult.IS_NOT_IN_DICTIONARY){
                 messege.innerHTML = `<p class=" text-xs text-red-600 text-center messeges p-0.5 border w-28 mx-auto rounded shadow m-5">Palabra no encontrada</p>`
@@ -181,7 +192,7 @@ let wordCol = 0
 
 window.addEventListener('keydown', e =>{
     
-
+    virtual_keyboard_press(e)
 
     render(e)
     
@@ -196,25 +207,11 @@ window.addEventListener('keydown', e =>{
 
 // Top Part
 virtual_keyboard.children[0].addEventListener('click', e =>{
-    let data = {
-        keyCode: '',
-        key: ''
-    }
-
-    data.keyCode = e.target.innerHTML.charCodeAt()
-    data.key = String.fromCharCode(e.target.innerHTML.charCodeAt())
-    render(data)
+    virtual_keyboard_press(e)
 })
 // Middle Part
 virtual_keyboard.children[1].addEventListener('click', e =>{
-    let data = {
-        keyCode: '',
-        key: ''
-    }
-
-    data.keyCode = e.target.innerHTML.charCodeAt()
-    data.key = String.fromCharCode(e.target.innerHTML.charCodeAt())
-    render(data)
+    virtual_keyboard_press(e)
 })
 // Bottom part
 virtual_keyboard.children[2].addEventListener('click', e =>{
@@ -222,16 +219,18 @@ virtual_keyboard.children[2].addEventListener('click', e =>{
         keyCode: '',
         key: ''
     }
-    console.log(e.target.innerHTML)
-    if(e.target.innerHTML=== 'ENVIAR'){
+   
+    if(e.target.innerHTML === 'ENVIAR'){
         data.keyCode = 13
+        data.key = null
         render(data)
     }
     if(e.target.innerHTML === '⌫'){
         data.keyCode = 08
+        data.key = false
         render(data)
     }
-    data.keyCode = e.target.innerHTML.charCodeAt()
-    data.key = String.fromCharCode(e.target.innerHTML.charCodeAt())
-    render(data)
+    if(e.target.innerHTML != 'ENVIAR' && e.target.innerHTML != '⌫'){
+        virtual_keyboard_press(e)
+    }
 })
