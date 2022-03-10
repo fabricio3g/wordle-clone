@@ -27,7 +27,7 @@
 
             </div>
 
-            <div id='collection-row' class="container flex flex-col mx-auto font-bold text-lg columns ">
+            <div id='collection-row' class="container flex flex-col mx-auto font-bold text-lg">
                 <ul class="flex flex-row justify-center ">
                     <li class="border-2 border border-gray-600 h-9 w-10  m-1 p-1  text-center"></li>
                     <li class="border-2 border border-gray-600 h-9 w-10 m-1  p-1 text-center"></li>
@@ -111,30 +111,40 @@
             </div>
             
         </div>
-        <script src="main.js"></script>
-        <style>
-            .correct {
-                background: #6dad61;
-                color: white;
-                border: none;
-            }
-
-            .almostCorrect {
-                background: #c8b754;
-                color: white;
-                border: none;
-            }
-
-            .incorrect {
-                background: #7b7f81;
-                color: white;
-                border: none;
-            }
-
-            .new-border {
-                border: 2px #7b7f81 dotted;
-            }
-        </style>
 </body>
+<script src="./scripts/dictionary.js"></script>
+<script src="./scripts/main.js"></script>
+<style>
+    .correct {
+        background: #6dad61;
+        color: white;
+        border: none;
+    }
 
+    .almostCorrect {
+        background: #c8b754;
+        color: white;
+        border: none;
+    }
+
+    .incorrect {
+        background: #7b7f81;
+        color: white;
+        border: none;
+    }
+
+    .new-border {
+        border: 2px #7b7f81 dotted;
+    }
+    .virtual-keyboard > ul > li:hover{
+        background: #7b7f81;
+        color: white;
+    }
+    .virtual-keyboard > ul > li:focus{
+        background: #7b7f81;
+        color: white;
+    }
+
+
+</style>
 </html>
